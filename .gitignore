@@ -5,18 +5,18 @@
 .vscode/
 
 # Backend (Node.js)
-backend/node_modules/
-backend/.env
-backend/package-lock.json
+back-end/node_modules/
+back-end/.env
+back-end/package-lock.json
 
 # Frontend (React)
-frontend/node_modules/
-frontend/.env
-frontend/.env.local
-frontend/build/
-frontend/package-lock.json
-frontend/.cache/
-frontend/dist/
+front-end/node_modules/
+front-end/.env
+front-end/.env.local
+front-end/build/
+front-end/package-lock.json
+front-end/.cache/
+front-end/dist/
 
 # Database (MongoDB local)
 *.db
