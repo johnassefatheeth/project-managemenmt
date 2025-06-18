@@ -5,7 +5,7 @@
 .vscode/
 
 # Backend (Node.js)
-back-end/node_modules/
+back-end/node_modules
 back-end/.env
 back-end/package-lock.json
 
