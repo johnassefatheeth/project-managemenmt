@@ -7,6 +7,9 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const listEndpoints = require('express-list-endpoints');
+require('dotenv').config();
+
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./middleware/error');
@@ -18,6 +21,7 @@ const milestoneRoutes = require('./routes/milestoneRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
+
 
 // 1) GLOBAL MIDDLEWARES
 app.use(cors());
@@ -32,15 +36,15 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Limit requests from same API
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!',
-});
-app.use('/api', limiter);
-
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 60 * 60 * 1000,
+//   message: 'Too many requests from this IP, please try again in an hour!',
+// });
+// app.use('/api', limiter);
+// { limit: '10kb' }
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
@@ -54,8 +58,8 @@ app.use(xss());
 app.use(hpp());
 
 // 3) ROUTES
-app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/projects', projectRoutes);
 app.use('/api/v1/milestones', milestoneRoutes);
 app.use('/api/v1/tasks', taskRoutes);
@@ -65,5 +69,9 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
+
+// After all routes
+console.log('\n📌 All Routes:');
+console.table(listEndpoints(app));
 
 module.exports = app;
