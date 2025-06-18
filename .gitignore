@@ -1,15 +1,8 @@
-# General
-.DS_Store
-*.log
-.env
-.vscode/
-
-# Backend (Node.js)
-back-end/node_modules
+back-end/node_modules/
 back-end/.env
 back-end/package-lock.json
 
-# Frontend (React)
+
 front-end/node_modules/
 front-end/.env
 front-end/.env.local
@@ -17,7 +10,3 @@ front-end/build/
 front-end/package-lock.json
 front-end/.cache/
 front-end/dist/
-
-# Database (MongoDB local)
-*.db
-*.db-journal
