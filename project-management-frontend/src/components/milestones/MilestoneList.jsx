@@ -50,6 +50,8 @@ const SortableMilestone = ({ milestone }) => {
         return <CheckCircle className="w-5 h-5 text-green-500" />;
       case 'in_progress':
         return <Target className="w-5 h-5 text-blue-500" />;
+        case 'Not Started':
+            return <Circle className="w-5 h-5 text-gray-400" />;
       default:
         return <Circle className="w-5 h-5 text-gray-400" />;
     }

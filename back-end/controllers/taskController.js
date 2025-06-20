@@ -4,29 +4,48 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createTask = catchAsync(async (req, res, next) => {
-  const milestone = await Milestone.findById(req.params.milestoneId).populate('project');
+  const { milestoneId} = req.body;
+  const milestone = await Milestone.findById(milestoneId).populate(
+    "project"
+  );
 
   if (!milestone) {
-    return next(new AppError('No milestone found with that ID', 404));
+    console.error("Milestone not found for ID:", req.params.milestoneId);
+    return next(new AppError("No milestone found with that ID", 404));
   }
 
-  // Only project manager can create tasks
   if (!milestone.project.createdBy.equals(req.user.id)) {
-    return next(new AppError('Only project managers can create tasks', 403));
+    return next(new AppError("Only project managers can create tasks", 403));
   }
 
-  const task = await Task.create({
-    ...req.body,
-    milestone: req.params.milestoneId,
-    createdBy: req.user.id
-  });
+  // --- START DEBUGGING BLOCK ---
+  try {
+    // 1. Log the exact object you are trying to create
+    const dataForTask = {
+      ...req.body,
+      milestone: req.body.milestoneId,
+      createdBy: req.user.id,
+    };
+    console.log("Attempting to create task with this data:", dataForTask);
 
-  res.status(201).json({
-    status: 'success',
-    data: {
-      task
-    }
-  });
+    // 2. Await the creation
+    const task = await Task.create(dataForTask);
+
+    // This part only runs if creation is successful
+    res.status(201).json({
+      status: "success",
+      data: {
+        task,
+      },
+    });
+  } catch (error) {
+    // 3. This will catch and log the specific Mongoose error
+    console.error("!!! ERROR CREATING TASK !!!", error);
+
+    // Send a detailed error response to the client
+    return next(new AppError(`Task creation failed: ${error.message}`, 500));
+  }
+  // --- END DEBUGGING BLOCK ---
 });
 
 exports.updateTaskStatus = catchAsync(async (req, res, next) => {

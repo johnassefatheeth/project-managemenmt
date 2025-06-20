@@ -166,9 +166,9 @@ const CreateTaskModal = ({ isOpen, onClose, projectId }) => {
             <button
               type="submit"
               className="btn-primary"
-              disabled={isLoading}
+              disabled={!isLoading}
             >
-              {isLoading ? <LoadingSpinner size="sm" /> : 'Create Task'}
+              {!isLoading ? <LoadingSpinner size="sm" /> : 'Create Task'}
             </button>
           </div>
         </form>
