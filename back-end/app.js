@@ -67,7 +67,7 @@ app.use(hpp());
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/projects', projectRoutes);
-app.use('/api/v1/milestones', milestoneRoutes);
+app.use('/api/v1/:projectId/milestones', milestoneRoutes);
 app.use('/api/v1/tasks', taskRoutes);
 
 app.all('*', (req, res, next) => {

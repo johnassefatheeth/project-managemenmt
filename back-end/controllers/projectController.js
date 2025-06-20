@@ -41,7 +41,7 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
 
 exports.getProject = catchAsync(async (req, res, next) => {
   const project = await Project.findById(req.params.id)
-    .populate('teamMembers createdBy');
+    .populate('teamMembers createdBy milestones');
   console.log("Fetching project with ID:", req.params.id);
 
   if (!project) {

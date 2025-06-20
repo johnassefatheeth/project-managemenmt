@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { CheckCircle, Circle, GripVertical, Calendar, Target } from 'lucide-react';
-import { reorderMilestones } from '../../store/slices/taskSlice';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react"; // Import useEffect
+import { useDispatch, useSelector } from "react-redux"; // 1. Import useSelector
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  CheckCircle,
+  Circle,
+  GripVertical,
+  Calendar,
+  Target,
+} from "lucide-react";
+// 2. BUG FIX: Import from milestoneSlice, not taskSlice
+import { reorderMilestones } from "../../store/slices/milestoneSlice";
+import toast from "react-hot-toast";
 
+// SortableMilestone sub-component does not need any changes
 const SortableMilestone = ({ milestone }) => {
   const {
     attributes,
@@ -99,7 +119,10 @@ const SortableMilestone = ({ milestone }) => {
   );
 };
 
-const MilestoneList = ({ milestones = [] }) => {
+// 3. Remove the `milestones` prop from the function signature
+const MilestoneList = () => {
+  // 4. Get the milestones directly from the Redux store
+  const { milestones } = useSelector((state) => state.milestones);
   const [items, setItems] = useState(milestones);
   const dispatch = useDispatch();
 
@@ -114,30 +137,33 @@ const MilestoneList = ({ milestones = [] }) => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const oldIndex = items.findIndex(item => item._id === active.id);
-      const newIndex = items.findIndex(item => item._id === over.id);
-      
+      const oldIndex = items.findIndex((item) => item._id === active.id);
+      const newIndex = items.findIndex((item) => item._id === over.id);
+
       const newItems = arrayMove(items, oldIndex, newIndex);
       setItems(newItems);
 
       try {
-        const reorderedMilestones = newItems.map((milestone, index) => ({
+        const reorderedData = newItems.map((milestone, index) => ({
           id: milestone._id,
-          order: index
+          order: index,
         }));
-        
-        await dispatch(reorderMilestones(reorderedMilestones)).unwrap();
-        toast.success('Milestones reordered successfully!');
+
+        await dispatch(reorderMilestones(reorderedData)).unwrap();
+        toast.success("Milestones reordered successfully!");
       } catch (error) {
-        // Revert on error
-        setItems(items);
-        toast.error('Failed to reorder milestones');
+        setItems(items); // Revert on error
+        console.error("Failed to reorder milestones:", error);
+        toast.error("Failed to reorder milestones");
       }
     }
   };
 
-  React.useEffect(() => {
-    setItems(milestones);
+  // 5. Use useEffect to sync local state when Redux state changes
+  useEffect(() => {
+    // Sort milestones by order before setting them to ensure consistency
+    const sortedMilestones = [...milestones].sort((a, b) => a.order - b.order);
+    setItems(sortedMilestones);
   }, [milestones]);
 
   if (items.length === 0) {
@@ -145,6 +171,9 @@ const MilestoneList = ({ milestones = [] }) => {
       <div className="text-center py-8">
         <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
         <p className="text-gray-500">No milestones defined for this project</p>
+        <p className="text-sm text-gray-400 mt-2">
+          Click "Add Milestone" to get started.
+        </p>
       </div>
     );
   }
@@ -155,7 +184,10 @@ const MilestoneList = ({ milestones = [] }) => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={items.map(item => item._id)} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={items.map((item) => item._id)}
+        strategy={verticalListSortingStrategy}
+      >
         <div className="space-y-3">
           {items.map((milestone) => (
             <SortableMilestone key={milestone._id} milestone={milestone} />
