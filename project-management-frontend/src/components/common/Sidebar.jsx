@@ -9,7 +9,7 @@ const Sidebar = () => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Projects', href: '/projects', icon: FolderOpen },
-    { name: 'Tasks', href: '/tasks', icon: CheckSquare },
+    { name: 'Tasks', href: '/my-tasks', icon: CheckSquare },
     ...(isProjectManager ? [{ name: 'Users', href: '/users', icon: Users }] : []),
   ];
 

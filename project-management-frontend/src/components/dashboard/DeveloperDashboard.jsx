@@ -128,7 +128,7 @@ const DeveloperDashboard = () => {
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">My Recent Tasks</h2>
             <Link
-              to="/tasks"
+              to="/my-tasks"
               className="text-sm text-primary-600 hover:text-primary-500 font-medium"
             >
               View all

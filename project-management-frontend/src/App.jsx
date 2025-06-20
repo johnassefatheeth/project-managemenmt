@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
+import MyTasks from './pages/MyTasks';
 
 // Layouts
 import DashboardLayout from './layouts/DashboardLayout';
@@ -53,6 +54,7 @@ const AppRoutes = () => {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/:id" element={<ProjectDetail />} />
+          <Route path="my-tasks" element={<MyTasks/>} />
         </Route>
       </Routes>
     </Router>

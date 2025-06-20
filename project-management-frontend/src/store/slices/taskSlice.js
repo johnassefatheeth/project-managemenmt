@@ -1,6 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/api';
 
+export const fetchMyTasks = createAsyncThunk(
+  "tasks/fetchMyTasks",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/tasks/my-tasks");
+      console.log("Fetched tasks:", response.data.data.tasks);
+      return response.data.data.tasks;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Server error");
+    }
+  }
+);
+
 export const createTask = createAsyncThunk(
   'tasks/createTask',
   async (taskData, { rejectWithValue }) => {

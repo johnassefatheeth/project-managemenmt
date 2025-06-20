@@ -3,10 +3,10 @@ back-end/.env
 back-end/package-lock.json
 
 
-front-end/node_modules/
-front-end/.env
-front-end/.env.local
-front-end/build/
-front-end/package-lock.json
-front-end/.cache/
-front-end/dist/
+project-management-frontend/node_modules/
+project-management-frontend/.env
+project-management-frontend/.env.local
+project-management-frontend/build/
+project-management-frontend/package-lock.json
+project-management-frontend/.cache/
+project-management-frontend/dist/
