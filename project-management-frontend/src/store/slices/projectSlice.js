@@ -32,6 +32,7 @@ export const fetchProjectDetails = createAsyncThunk(
   async (projectId, { rejectWithValue }) => {
     try {
       const response = await api.get(`/projects/${projectId}`);
+      console.log("Project details response:", response.data);
       // Extract the project from the nested response
       return response.data.data?.project || response.data;
     } catch (error) {

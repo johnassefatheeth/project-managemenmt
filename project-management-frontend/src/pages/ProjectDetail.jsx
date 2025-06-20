@@ -11,6 +11,7 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { currentProject, isLoading } = useSelector((state) => state.projects);
+  console.log('Current Project:', currentProject);
 
   useEffect(() => {
     if (id) {

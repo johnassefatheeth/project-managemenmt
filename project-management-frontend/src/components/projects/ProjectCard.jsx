@@ -21,7 +21,7 @@ const ProjectCard = ({ project }) => {
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
           <Link
-            to={`/project/${project._id}`}
+            to={`/projects/${project._id}`}
             className="text-lg font-semibold text-gray-900 hover:text-primary-600 transition-colors"
           >
             {project.name}
