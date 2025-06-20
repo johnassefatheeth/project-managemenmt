@@ -9,7 +9,7 @@ A full-stack project management application with React frontend and Express.js b
 
 1. Clone the repository:
    ```bash
-   git clone [your-repository-url]
+   git clone https://github.com/johnassefatheeth/project-managemenmt.git
 Navigate to the backend directory:
 
 bash
@@ -45,7 +45,7 @@ Start both servers (follow steps above)
 Access the frontend at:
 
 text
-http://localhost:3000
+http://localhost:5173
 Technologies
 Frontend: React
 
