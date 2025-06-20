@@ -51,4 +51,4 @@ Frontend: React
 
 Backend: Express.js
 
-Database: [Your database name]
+Database: mongo db
