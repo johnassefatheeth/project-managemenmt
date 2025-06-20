@@ -2,28 +2,29 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import api from '../../services/api';
 
+// src/features/auth/authSlice.js
+
 export const loginUser = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
-      const { token, role } = response.data;
-      
-      Cookies.set('token', token, { expires: 7 });
-      
-      // Get user profile
-      const userResponse = await api.get('/users/me');
-      
-      return {
-        token,
-        user: { ...userResponse.data, role }
-      };
+        
+      const response = await api.post("/auth/login", { email, password });
+
+      const { token, data } = response.data;
+      const user = data.user; 
+
+      console.log("Login successful. Token:", token);
+      console.log("User object received:", user);
+
+      Cookies.set("token", token, { expires: 7 });
+
+      return { token, user };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Login failed');
+      return rejectWithValue(error.response?.data?.message || "Login failed");
     }
   }
 );
-
 export const signupUser = createAsyncThunk(
   'auth/signup',
   async (userData, { rejectWithValue }) => {

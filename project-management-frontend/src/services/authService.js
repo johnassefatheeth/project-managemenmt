@@ -12,7 +12,7 @@ export const authService = {
   },
 
   getCurrentUser: async () => {
-    const response = await api.get('/users/me');
+    const response = await api.get(`/users/${userId}`);
     return response.data;
   },
 
