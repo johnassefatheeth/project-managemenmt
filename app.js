@@ -24,7 +24,7 @@ const app = express();
 // 1) GLOBAL MIDDLEWARES
 // Configure CORS properly for credentials
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:3000'], // Add your frontend URLs
+  origin: ['http://localhost:5173', 'http://localhost:3000','https://johnassefatheeth.github.io/pm-f-d/'], // Add your frontend URLs
   credentials: true, // Allow credentials (cookies, authorization headers)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
