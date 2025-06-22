@@ -1,6 +1,6 @@
-back-end/node_modules/
-back-end/.env
-back-end/package-lock.json
+/node_modules/
+/.env
+/package-lock.json
 
 
 project-management-frontend/node_modules/
